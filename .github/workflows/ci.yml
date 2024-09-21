@@ -15,6 +15,8 @@ jobs:
       steps:
         - name: Checkout code
           uses: actions/checkout@v4
+          with:
+            fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
   
         - name: Set up Python
           uses: actions/setup-python@v5
@@ -28,17 +30,9 @@ jobs:
             python3.12 -m pip install --upgrade pip
             pip install -r test_requirements.txt
             coverage run -m pytest
+            coverage xml -o coverage.xml --relative-files
             deactivate
             rm -rf env
-
-    sonarcloud:
-      name: SonarCloud
-      runs-on: ubuntu-latest
-      needs: python-test
-      steps:
-        - uses: actions/checkout@v4
-          with:
-            fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
         - name: SonarCloud Scan
           uses: SonarSource/sonarcloud-github-action@master
           env:

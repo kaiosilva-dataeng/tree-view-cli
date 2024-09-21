@@ -86,26 +86,38 @@ class DirectoryTreeGenerator:
     def _generate_tree(self, directory, prefix, depth, visited):
         if depth >= self.max_depth:
             return
-
+    
         entries = sorted(directory.iterdir(), key=lambda x: (x.is_file(), x.name.lower()))
         
         for i, entry in enumerate(entries):
             if self.should_ignore(entry):
                 continue
-
+    
             is_last = i == len(entries) - 1
-            current_prefix = "└── " if is_last else "├── "
+            current_prefix = self._get_current_prefix(is_last)
             print(f"{prefix}{current_prefix}{entry.name}")
-
+    
             if entry.is_dir() and not entry.is_symlink():
-                canonical_path = entry.resolve()
-                if canonical_path in visited:
-                    print(f"{prefix}{'    ' if is_last else '│   '}[Cyclic reference to {entry.name}]")
-                    continue
-
-                new_prefix = prefix + ("    " if is_last else "│   ")
-                new_visited = visited.union({canonical_path})
-                self._generate_tree(entry, new_prefix, depth + 1, new_visited)
+                self._handle_directory(entry, prefix, is_last, depth, visited)
+    
+    def _get_current_prefix(self, is_last):
+        return "└── " if is_last else "├── "
+    
+    def _handle_directory(self, entry, prefix, is_last, depth, visited):
+        canonical_path = entry.resolve()
+        if canonical_path in visited:
+            self._print_cyclic_reference(prefix, entry.name, is_last)
+            return
+    
+        new_prefix = self._get_new_prefix(prefix, is_last)
+        new_visited = visited.union({canonical_path})
+        self._generate_tree(entry, new_prefix, depth + 1, new_visited)
+    
+    def _print_cyclic_reference(self, prefix, name, is_last):
+        print(f"{prefix}{'    ' if is_last else '│   '}[Cyclic reference to {name}]")
+    
+    def _get_new_prefix(self, prefix, is_last):
+        return prefix + ("    " if is_last else "│   ")
 
 def main():
     parser = argparse.ArgumentParser(description="Generate a directory tree.")

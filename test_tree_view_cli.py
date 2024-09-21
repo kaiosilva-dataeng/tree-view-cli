@@ -66,14 +66,6 @@ def test_gitignore_subdirectory(temp_directory, capsys):
     assert "subdir1" not in captured.out
     assert "subdir2" in captured.out
 
-# def test_cyclic_reference(temp_directory, capsys):
-#     (temp_directory / "dir1" / "subdir1").mkdir(parents=True)
-#     os.symlink(temp_directory / "dir1", temp_directory / "dir1" / "subdir1" / "cycle")
-#     tree_gen = DirectoryTreeGenerator(temp_directory)
-#     tree_gen.generate_tree()
-#     captured = capsys.readouterr()
-#     assert "Cyclic reference to" in captured.out
-
 def test_empty_directory(temp_directory, capsys):
     tree_gen = DirectoryTreeGenerator(temp_directory)
     tree_gen.generate_tree()

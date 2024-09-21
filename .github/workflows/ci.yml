@@ -30,7 +30,7 @@ jobs:
             python3.12 -m pip install --upgrade pip
             pip install -r test_requirements.txt
             coverage run -m pytest
-            coverage xml -o coverage.xml --relative-files
+            coverage xml -o coverage.xml
             deactivate
             rm -rf env
         - name: SonarCloud Scan

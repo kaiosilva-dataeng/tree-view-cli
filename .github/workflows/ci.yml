@@ -1,0 +1,32 @@
+name: CI tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+    python-test:
+      runs-on: ubuntu-latest
+  
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+  
+        - name: Set up Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: 3.12
+  
+        - name: Test the tree_view_cli package
+          run: |
+            python3.12 -m venv env
+            source env/bin/activate
+            python3.12 -m pip install --upgrade pip
+            pip install -r test_requirements.txt
+            coverage run -m pytest
+            deactivate
+            rm -rf env

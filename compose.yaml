@@ -7,9 +7,12 @@
 # You can add other services your application may depend on here, such as a
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
+
 services:
   tree-view-cli:
     build:
       context: .
       dockerfile: Dockerfile
-    entrypoint: ["task", "test"]
+    entrypoint: ["sh", "-c", "task test && cd htmlcov && python -m http.server 8000"]
+    ports:
+      - "8000:8000"

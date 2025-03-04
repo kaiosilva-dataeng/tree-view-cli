@@ -38,7 +38,7 @@ make down
 
 Or
 ```bash
-docker compose down --remove-orphans  --rmi local
+docker compose down --remove-orphans  --rmi local --volumes
 ```
 
 ### Working with the Environment

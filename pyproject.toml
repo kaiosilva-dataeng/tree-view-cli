@@ -6,6 +6,9 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = []
 
+[project.scripts]
+tree-view = "tree_view_cli.tree_view_cli:main"
+
 [dependency-groups]
 dev = [
     "pre-commit>=4.1.0",
@@ -38,7 +41,14 @@ addopts = '-p no:warnings'
 lint = 'ruff check'
 pre_format = 'ruff check --fix'
 format = 'ruff format'
-run = 'python tree_view_cli.py .'
+run = 'python src/tree_view_cli/tree_view_cli.py .'
 pre_test = 'task lint'
-test = 'pytest -s -x --cov=tree_view_cli -vv'
+test = 'pytest -s -x --cov=src/tree_view_cli -vv'
 post_test = 'coverage html'
+
+[tool.uv]
+config-settings = { editable_mode = "compat" }
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"

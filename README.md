@@ -2,6 +2,9 @@
 
 A fast, customizable command-line tool for generating tree-like representations of directory structures, with intelligent handling of .gitignore rules and cross-platform compatibility.
 
+- This project is a fork from [chrisw-org/tree-view-cli](https://github.com/chrisw-org/tree-view-cli.git)
+
+
 ## Features
 
 - 🚀 **Fast execution**: Optimized Python implementation for quick directory processing
@@ -16,6 +19,14 @@ A fast, customizable command-line tool for generating tree-like representations 
 
 ## Installation
 
+### Automatic by Astral uv
+
+```bash
+uv tool install "git+https://github.com/kaiosilva-dataeng/tree-view-cli.git@main"
+```
+
+### Manual
+
 ```bash
 # Clone the repository
 git clone https://github.com/kaiosilva-dataeng/tree-view-cli.git
@@ -25,18 +36,26 @@ cd tree-view-cli
 uv sync
 ```
 
+### Troubleshooting Project Installation Issues
+
+In case the project is not installed automatically, please refer to the following steps to resolve the issue:
+
+```bash
+uv tool install .
+```
+
 ## Usage
 
 Basic usage:
 
 ```bash
-python tree_view_cli.py /path/to/directory
+tree-view /path/to/directory
 ```
 
 Limiting directory depth:
 
 ```bash
-python tree_view_cli.py /path/to/directory --max-depth 2
+tree-view /path/to/directory --max-depth 2
 ```
 
 ### Options
@@ -116,18 +135,28 @@ This project uses GitHub Actions for continuous integration. The workflow includ
 
 ```
 tree-view-cli/
-├── tests/
+├── .github
+│   └── workflows
+│       └── ci.yml            # GitHub Actions CI workflow
+├── .vscode                   # VS Code configuration
+├── src
+│   └── tree_view_cli
+│       └── tree_view_cli.py  # Main application module
+├── tests
 │   ├── conftest.py           # Test fixtures and setup
 │   └── test_tree_view_cli.py # Test suite
-├── .github/
-│   └── workflows/            # CI configuration
-├── .vscode/                  # VS Code configuration
-├── Dockerfile                # Docker configuration
+├── .dockerignore             # Files to exclude from Docker context
+├── .gitignore                # Files to exclude from git
+├── .pre-commit-config.yaml   # Pre-commit hooks configuration
+├── .python-version           # Python version specification
 ├── compose.yaml              # Docker Compose configuration
-├── tree_view_cli.py          # Main application module
+├── Dockerfile                # Docker configuration
+├── LICENSE                   # Project license
+├── Makefile                  # Make commands for Docker
 ├── pyproject.toml            # Project metadata and dependencies
+├── README.Docker.md          # Docker-specific documentation
 ├── README.md                 # Project documentation
-└── README.Docker.md          # Docker-specific documentation
+└── uv.lock                   # Dependency lock file
 ```
 
 ## Contributing

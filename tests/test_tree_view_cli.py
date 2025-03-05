@@ -1,7 +1,7 @@
 import tempfile
 from pathlib import Path
 
-from tree_view_cli import DirectoryTreeGenerator
+from src.tree_view_cli.tree_view_cli import DirectoryTreeGenerator
 
 
 def test_basic_structure(temp_directory, capsys):
